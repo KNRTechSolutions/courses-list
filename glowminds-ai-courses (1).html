@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glowminds AI — Career Courses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1220;
+    --ink:#121A2B;
+    --paper:#F7F7FB;
+    --amber:#FFB020;
+    --violet:#7C5CFF;
+    --slate:#5B6478;
+    --line:#232D42;
+    --white:#FFFFFF;
+    --glow: radial-gradient(circle at 30% 30%, var(--amber), transparent 60%),
+             radial-gradient(circle at 70% 70%, var(--violet), transparent 60%);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{font-family:'Sora', sans-serif; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* ===== Top Bar ===== */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:var(--navy);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1200px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:10px; color:var(--white);}
+  .brand .dot{
+    width:14px; height:14px; border-radius:50%;
+    background:var(--glow);
+    box-shadow:0 0 14px 3px rgba(255,176,32,0.55);
+  }
+  .brand span{font-family:'Sora'; font-weight:800; font-size:1.15rem; letter-spacing:-0.02em;}
+  .brand small{display:block; font-family:'JetBrains Mono'; font-size:0.62rem; color:#9AA5C0; letter-spacing:0.12em; text-transform:uppercase;}
+
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .tab-btn{
+    font-family:'Inter'; font-weight:600; font-size:0.82rem;
+    color:#C6CDE0; background:transparent; border:1px solid transparent;
+    padding:8px 14px; border-radius:999px; cursor:pointer; transition:.2s;
+    white-space:nowrap;
+  }
+  .tab-btn:hover{color:var(--white); border-color:var(--line);}
+  .tab-btn.active{
+    color:var(--navy); background:linear-gradient(120deg, var(--amber), #FFD37A);
+    box-shadow:0 4px 14px rgba(255,176,32,0.35);
+  }
+
+  /* ===== Hero per page ===== */
+  .page{display:none; animation:fade .35s ease;}
+  .page.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .hero{
+    position:relative; overflow:hidden;
+    background:var(--navy); color:var(--white);
+  }
+  .hero-orb{
+    position:absolute; inset:-40% -10% auto auto; width:520px; height:520px;
+    background:var(--glow); opacity:.5; filter:blur(10px); pointer-events:none;
+  }
+  .hero-inner{
+    max-width:1200px; margin:0 auto; padding:56px 24px 48px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+    position:relative; z-index:2;
+  }
+  .ribbon{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(124,92,255,0.16); border:1px solid rgba(124,92,255,0.5);
+    color:#CBBBFF; font-family:'JetBrains Mono'; font-size:0.72rem; letter-spacing:.06em;
+    text-transform:uppercase; padding:6px 12px; border-radius:999px; margin-bottom:18px;
+  }
+  .ribbon .pulse{width:8px; height:8px; border-radius:50%; background:var(--amber); box-shadow:0 0 10px 3px rgba(255,176,32,.7); animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  .hero h1{font-size:2.4rem; font-weight:800; line-height:1.12; margin-bottom:14px;}
+  .hero h1 em{font-style:normal; color:var(--amber);}
+  .hero p.tagline{color:#B9C1D9; font-size:1.02rem; max-width:52ch; margin-bottom:22px;}
+  .meta-row{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:6px;}
+  .meta-item{font-size:0.8rem; color:#8E98B8;}
+  .meta-item b{color:var(--white); display:block; font-family:'Sora'; font-size:1rem;}
+
+  .hero-img-wrap{
+    position:relative; border-radius:18px; overflow:hidden;
+    border:1px solid var(--line); box-shadow:0 20px 60px rgba(0,0,0,.45);
+    background:linear-gradient(160deg,#161F35,#0E1526);
+  }
+  .hero-img-wrap svg{width:100%; height:320px; display:block;}
+  .hero-img-wrap::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 62%, rgba(11,18,32,.9));
+  }
+  .img-caption{
+    position:absolute; left:14px; bottom:12px; z-index:2;
+    font-family:'JetBrains Mono'; font-size:0.68rem; color:#E8EAF5;
+    background:rgba(0,0,0,.35); padding:4px 9px; border-radius:6px; backdrop-filter:blur(3px);
+  }
+
+  /* ===== Section shell ===== */
+  .section{max-width:1200px; margin:0 auto; padding:52px 24px;}
+  .section + .section{border-top:1px solid #E7E7F2;}
+  .eyebrow{
+    font-family:'JetBrains Mono'; font-size:0.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:8px; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:""; width:20px; height:2px; background:var(--amber); display:inline-block;}
+  .section h2{font-size:1.55rem; margin-bottom:6px;}
+  .section .sub{color:var(--slate); max-width:70ch; margin-bottom:28px; font-size:0.95rem;}
+
+  /* level toggle */
+  .level-toggle{
+    display:inline-flex; background:#fff; border:1px solid #E1E1EE; border-radius:999px;
+    padding:4px; margin-bottom:30px; box-shadow:0 1px 3px rgba(20,20,50,.05);
+  }
+  .level-toggle button{
+    border:none; background:transparent; font-family:'Sora'; font-weight:700; font-size:0.85rem;
+    padding:9px 20px; border-radius:999px; cursor:pointer; color:var(--slate); transition:.2s;
+  }
+  .level-toggle button.active{background:var(--navy); color:var(--white);}
+
+  .track-note{
+    background:#FFF7E8; border:1px solid #FFE3AE; border-left:4px solid var(--amber);
+    padding:14px 18px; border-radius:10px; font-size:0.88rem; color:#6B5100; margin-bottom:30px;
+  }
+
+  /* syllabus modules */
+  .module-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); gap:16px;}
+  .module-card{
+    background:#fff; border:1px solid #E7E7F2; border-radius:14px; padding:20px;
+    transition:.2s;
+  }
+  .module-card:hover{border-color:var(--violet); box-shadow:0 10px 26px rgba(124,92,255,.12); transform:translateY(-2px);}
+  .module-card h4{font-size:1rem; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .module-num{
+    font-family:'JetBrains Mono'; font-size:.7rem; color:var(--white); background:var(--navy);
+    width:22px; height:22px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{
+    font-family:'JetBrains Mono'; font-size:0.72rem; background:#F0EEFF; color:#4B3AA8;
+    padding:4px 9px; border-radius:6px; border:1px solid #E1DBFF;
+  }
+
+  /* toolkit strip (real tools used, no external images = never breaks) */
+  .toolkit-strip{
+    margin-top:22px; border-radius:14px; border:1px solid #E7E7F2;
+    background:linear-gradient(135deg,#12192C,#1B2440);
+    box-shadow:0 10px 30px rgba(18,26,43,.12);
+    padding:22px 24px;
+  }
+  .toolkit-strip .tk-label{
+    font-family:'JetBrains Mono'; font-size:0.68rem; color:#9AA5C0; text-transform:uppercase;
+    letter-spacing:.1em; margin-bottom:12px;
+  }
+  .toolkit-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .tk-chip{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14); color:#EDEFF7; font-family:'Sora'; font-weight:600;
+    font-size:0.85rem; padding:9px 14px; border-radius:10px;
+  }
+  .tk-chip .tk-ic{font-size:1.05rem;}
+
+  /* benefits */
+  .benefit-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px;}
+  .benefit-card{
+    background:linear-gradient(160deg,#fff,#F7F6FF); border:1px solid #E7E7F2; border-radius:14px; padding:20px;
+  }
+  .benefit-card .ic{font-size:1.4rem; margin-bottom:10px; display:block;}
+  .benefit-card h4{font-size:0.95rem; margin-bottom:6px;}
+  .benefit-card p{font-size:0.85rem; color:var(--slate);}
+
+  /* what next timeline */
+  .path{display:flex; flex-wrap:wrap; gap:0; align-items:stretch;}
+  .path-step{
+    flex:1 1 200px; background:#fff; border:1px solid #E7E7F2; border-radius:14px; padding:18px;
+    position:relative; margin:6px;
+  }
+  .path-step .stage{font-family:'JetBrains Mono'; font-size:.68rem; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px;}
+  .path-step h4{font-size:0.98rem; margin-bottom:6px;}
+  .path-step p{font-size:0.82rem; color:var(--slate);}
+
+  /* hiring companies */
+  .hire-wrap{
+    background:var(--ink); border-radius:18px; padding:30px; color:#fff;
+    display:grid; grid-template-columns:1fr 1fr; gap:24px;
+  }
+  .hire-wrap h3{font-size:1.05rem; margin-bottom:14px; color:var(--amber);}
+  .hire-cat{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    border-radius:10px; padding:12px 14px; margin-bottom:10px; font-size:0.86rem; color:#DDE1F2;
+  }
+  .hire-cat b{color:#fff; display:block; font-family:'Sora'; font-size:0.92rem; margin-bottom:3px;}
+
+  /* faculty band */
+  .faculty-band{
+    display:flex; align-items:center; gap:18px; background:#fff; border:1px solid #E7E7F2;
+    border-radius:16px; padding:22px; margin-top:10px;
+  }
+  .faculty-badges{display:flex; gap:8px; flex-shrink:0;}
+  .fb{
+    width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Sora'; font-weight:800; font-size:0.72rem; color:#fff;
+  }
+  .fb.iit{background:#1E3A8A;}
+  .fb.iim{background:#7C2D12;}
+  .fb.jntua{background:#166534;}
+  .faculty-band p{font-size:0.88rem; color:var(--slate);}
+  .faculty-band strong{color:var(--ink);}
+
+  /* real-time note */
+  .realtime-note{
+    display:flex; gap:14px; align-items:flex-start;
+    background:linear-gradient(120deg, rgba(124,92,255,.08), rgba(255,176,32,.08));
+    border:1px dashed #C9BEFF; border-radius:14px; padding:18px 20px; margin-top:26px;
+  }
+  .realtime-note .flag{font-size:1.3rem;}
+  .realtime-note p{font-size:0.86rem; color:#3C3A55;}
+
+  /* CTA footer per course */
+  .course-cta{
+    text-align:center; padding:46px 24px; background:var(--navy); color:#fff; position:relative; overflow:hidden;
+  }
+  .course-cta .glow-bg{position:absolute; inset:0; background:var(--glow); opacity:.25;}
+  .course-cta h3{font-size:1.4rem; margin-bottom:8px; position:relative;}
+  .course-cta p{color:#B9C1D9; margin-bottom:18px; position:relative;}
+  .cta-btn{
+    position:relative; display:inline-block; font-family:'Sora'; font-weight:700; font-size:0.9rem;
+    background:linear-gradient(120deg,var(--amber),#FFD37A); color:var(--navy);
+    padding:13px 28px; border-radius:999px; text-decoration:none; box-shadow:0 10px 30px rgba(255,176,32,.35);
+    cursor:default;
+  }
+  .cta-sub{font-size:0.72rem; color:#7C87A8; margin-top:10px; position:relative;}
+
+  /* ===== Alumni / Faculty page ===== */
+  .alumni-hero{
+    position:relative; overflow:hidden; background:var(--navy); color:#fff; text-align:center;
+    padding:64px 24px 46px;
+  }
+  .alumni-hero .hero-orb{inset:-30% 20% auto auto;}
+  .alumni-hero h1{font-size:2.2rem; max-width:20ch; margin:0 auto 14px; position:relative; z-index:2;}
+  .alumni-hero p{color:#B9C1D9; max-width:60ch; margin:0 auto; position:relative; z-index:2;}
+
+  .stat-bar{
+    max-width:1000px; margin:34px auto 0; display:grid; grid-template-columns:repeat(4,1fr);
+    gap:14px; position:relative; z-index:2;
+  }
+  .stat-box{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+    border-radius:14px; padding:16px 10px;
+  }
+  .stat-box b{display:block; font-family:'Sora'; font-size:1.5rem; color:var(--amber);}
+  .stat-box span{font-size:0.72rem; color:#C6CDE0; text-transform:uppercase; letter-spacing:.06em;}
+
+  .alumni-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:22px;}
+  .alumni-card{
+    background:#fff; border:1px solid #E7E7F2; border-radius:18px; padding:22px;
+    display:flex; flex-direction:column; gap:14px; transition:.2s;
+  }
+  .alumni-card:hover{transform:translateY(-3px); box-shadow:0 16px 36px rgba(18,26,43,.1); border-color:#D9D3FF;}
+  .alumni-top{display:flex; gap:14px; align-items:center;}
+  .alumni-top img{
+    width:72px; height:72px; border-radius:50%; object-fit:cover; flex-shrink:0;
+    border:3px solid #fff; box-shadow:0 0 0 2px var(--violet);
+  }
+  .alumni-name{font-family:'Sora'; font-weight:700; font-size:1.05rem;}
+  .alumni-role{font-size:0.8rem; color:var(--violet); font-weight:600;}
+  .alumni-badges{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;}
+  .alumni-badge{
+    font-family:'JetBrains Mono'; font-size:0.66rem; padding:3px 8px; border-radius:999px;
+    color:#fff;
+  }
+  .alumni-badge.iit{background:#1E3A8A;}
+  .alumni-badge.iim{background:#7C2D12;}
+  .alumni-badge.jntua{background:#166534;}
+  .alumni-stats{display:flex; gap:16px; font-size:0.78rem; color:var(--slate); border-top:1px dashed #E1E1EE; border-bottom:1px dashed #E1E1EE; padding:10px 0;}
+  .alumni-stats b{color:var(--ink); display:block; font-family:'Sora'; font-size:0.95rem;}
+  .alumni-card p.bio{font-size:0.87rem; color:var(--slate);}
+  .alumni-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .alumni-tag{font-size:0.72rem; background:#F7F6FF; border:1px solid #E6E1FF; color:#4B3AA8; padding:4px 9px; border-radius:7px;}
+
+  .faculty-link-btn{
+    display:inline-block; margin-top:14px; font-family:'Sora'; font-weight:700; font-size:0.82rem;
+    color:var(--violet); text-decoration:none; border:1px solid #D9D3FF; padding:8px 16px;
+    border-radius:999px; cursor:pointer; background:#fff; transition:.2s;
+  }
+  .faculty-link-btn:hover{background:#F3F0FF;}
+
+  footer.site-footer{
+    background:#0B1220; color:#7C87A8; text-align:center; padding:26px; font-size:0.78rem;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width: 860px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hire-wrap{grid-template-columns:1fr;}
+    .hero h1{font-size:1.8rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>
+        <span>Glowminds AI</span>
+        <small>Career Launch Programs</small>
+      </div>
+    </div>
+    <div class="tabs" id="tabNav"></div>
+  </div>
+</div>
+
+<div id="pages"></div>
+
+<footer class="site-footer">
+  © 2026 Glowminds AI · Industry real-time training, mapped to how companies actually work · All programs launching soon.
+</footer>
+
+<script>
+const COURSES = [
+  {
+    id:"mis",
+    name:"MIS Executive",
+    icon:"📊",
+    tagline:"Turn raw business data into the dashboards and reports leadership actually reads — the exact Excel, SQL and Power BI workflow MIS teams run every day inside real companies.",
+    imgCaption:"Live MIS reporting workflow",
+    keyTools:[{ic:"📗",n:"Advanced Excel"},{ic:"📊",n:"Power BI"},{ic:"🗄️",n:"SQL"},{ic:"⚙️",n:"VBA Macros"},{ic:"📑",n:"Power Query"},{ic:"📈",n:"Google Sheets"}],
+    duration:"8 Weeks",
+    mode:"Live Online / Hybrid",
+    level0:"No coding background needed",
+    modules:{
+      Freshers:[
+        {t:"Excel Foundations for MIS", tools:["Formulas","VLOOKUP/XLOOKUP","Conditional Formatting"]},
+        {t:"Pivot Tables & Dashboards", tools:["PivotTables","Slicers","Charts"]},
+        {t:"Intro to SQL for Reporting", tools:["SELECT/JOIN","GROUP BY","MySQL"]},
+        {t:"Power BI Essentials", tools:["Power Query","DAX Basics","Power BI Service"]},
+        {t:"MIS Report Automation", tools:["VBA Macros","Google Sheets","Auto-refresh Reports"]},
+        {t:"Corporate Reporting Etiquette", tools:["MIS Templates","SLA Reports","Email Automation"]}
+      ],
+      Experienced:[
+        {t:"Advanced Power Query & Data Modelling", tools:["Star Schema","Power Query M","Data Merge"]},
+        {t:"Advanced DAX & KPI Dashboards", tools:["DAX Measures","Time Intelligence","KPI Cards"]},
+        {t:"SQL for Large Datasets", tools:["Stored Procedures","Views","Query Optimisation"]},
+        {t:"VBA & Process Automation", tools:["Macro Recorder","Outlook Automation","Task Scheduler"]},
+        {t:"Cross-department MIS Systems", tools:["ERP Data Pulls","SAP Exports","Google Data Studio"]},
+        {t:"Real Client MIS Project", tools:["End-to-end Dashboard","Stakeholder Review","Version Control"]}
+      ]
+    },
+    benefits:[
+      {ic:"⚡",h:"Job-ready in weeks",p:"A tight, practical curriculum that gets you interview-ready fast, without unnecessary theory."},
+      {ic:"📈",h:"Instant workplace value",p:"Automate the reports your manager currently builds by hand — day-one impact."},
+      {ic:"🧩",h:"Foundation for growth",p:"MIS is the on-ramp into Business Analyst and Data Analyst roles."},
+      {ic:"🏠",h:"Remote-friendly role",p:"MIS Executive is one of the most in-demand remote/hybrid job titles today."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"MIS Executive",p:"Entry role in operations, finance or HR reporting teams."},
+      {s:"Stage 2",h:"Senior MIS / Reporting Analyst",p:"Own dashboards across departments, mentor juniors."},
+      {s:"Stage 3",h:"Business / Data Analyst",p:"Move into insight-driven analytics roles with SQL + BI depth."}
+    ],
+    hiring:[
+      {h:"IT Services & BPO/KPO", p:"TCS, Infosys, Wipro-type delivery & operations teams"},
+      {h:"Banking, NBFC & Insurance", p:"MIS & reporting desks across retail and corporate banking"},
+      {h:"E-commerce & Logistics Ops", p:"Daily operational and fulfilment dashboards"},
+      {h:"Manufacturing & FMCG", p:"Plant and supply-chain reporting units"}
+    ]
+  },
+  {
+    id:"data-analyst",
+    name:"Data Analyst",
+    icon:"📈",
+    tagline:"Learn the SQL, Python and BI stack that product, fintech and e-commerce teams use to turn data into decisions — real datasets, real dashboards, real business questions.",
+    imgCaption:"Real-world analytics workflow",
+    keyTools:[{ic:"🗄️",n:"SQL"},{ic:"🐍",n:"Python"},{ic:"📊",n:"Power BI"},{ic:"📈",n:"Tableau"},{ic:"📗",n:"Excel"},{ic:"📉",n:"Statistics"}],
+    duration:"12 Weeks",
+    mode:"Live Online / Hybrid",
+    level0:"Basic computer literacy",
+    modules:{
+      Freshers:[
+        {t:"SQL for Analytics", tools:["Joins","Subqueries","Window Functions"]},
+        {t:"Python for Data Analysis", tools:["Pandas","NumPy","Jupyter"]},
+        {t:"Statistics Foundations", tools:["Mean/Median","Distributions","Hypothesis Testing"]},
+        {t:"Data Visualization", tools:["Power BI","Tableau","Matplotlib"]},
+        {t:"Excel for Analysts", tools:["Pivot Tables","What-if Analysis","Data Cleaning"]},
+        {t:"Capstone: Business Dashboard", tools:["End-to-end Analysis","Storytelling","Presentation"]}
+      ],
+      Experienced:[
+        {t:"Advanced SQL & Query Optimisation", tools:["CTEs","Indexing","Query Plans"]},
+        {t:"ETL & Data Pipelines", tools:["Airflow Basics","APIs","Data Warehousing"]},
+        {t:"A/B Testing & Experimentation", tools:["Hypothesis Design","Significance Testing","Metrics"]},
+        {t:"Advanced Tableau/Power BI", tools:["Calculated Fields","Row-level Security","Storyboards"]},
+        {t:"Python for Automation & ML Intro", tools:["Scikit-learn Basics","Automation Scripts","Regression"]},
+        {t:"Real Client Analytics Project", tools:["Stakeholder Brief","Insights Deck","KPI Tracking"]}
+      ]
+    },
+    benefits:[
+      {ic:"🌍",h:"Cross-industry demand",p:"Every sector — fintech, retail, healthcare — needs data analysts."},
+      {ic:"💰",h:"Strong pay growth",p:"One of the fastest-growing salary curves in early-career tech roles."},
+      {ic:"🧠",h:"Gateway to Data Science",p:"Direct pathway into ML and Data Science career tracks."},
+      {ic:"🛠️",h:"Real tool stack",p:"Same SQL/Python/BI stack used by analysts inside product companies."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"Data Analyst",p:"Own reporting, dashboards and ad-hoc analysis for a business team."},
+      {s:"Stage 2",h:"Senior / Product Analyst",p:"Drive experimentation and product metrics."},
+      {s:"Stage 3",h:"Data Scientist / BI Engineer",p:"Progress into predictive modelling or BI engineering."}
+    ],
+    hiring:[
+      {h:"Product & SaaS Companies", p:"Metrics, growth and product analytics teams"},
+      {h:"Fintech & Banking", p:"Risk, fraud and customer analytics desks"},
+      {h:"E-commerce & Retail", p:"Pricing, demand and customer insight teams"},
+      {h:"Consulting & Analytics Firms", p:"Client-facing analytics and BI delivery"}
+    ]
+  },
+  {
+    id:"sap",
+    name:"SAP All Modules",
+    icon:"🧩",
+    tagline:"Get hands-on with SAP S/4HANA across FICO, MM, SD and HCM — configured exactly the way enterprise SAP consultants build it for live client landscapes.",
+    imgCaption:"Enterprise SAP S/4HANA landscape",
+    keyTools:[{ic:"🧩",n:"SAP S/4HANA"},{ic:"💰",n:"FICO"},{ic:"📦",n:"MM"},{ic:"🛒",n:"SD"},{ic:"👥",n:"HCM"},{ic:"🖥️",n:"Fiori"}],
+    duration:"16 Weeks",
+    mode:"Live Online / Lab Access",
+    level0:"Basic business process understanding",
+    modules:{
+      Freshers:[
+        {t:"SAP S/4HANA Overview", tools:["Navigation","Org Structure","Fiori Launchpad"]},
+        {t:"SAP FICO Basics", tools:["GL Accounting","AP/AR","Cost Centers"]},
+        {t:"SAP MM Fundamentals", tools:["Procurement Cycle","Vendor Master","Inventory"]},
+        {t:"SAP SD Fundamentals", tools:["Sales Order Cycle","Pricing","Billing"]},
+        {t:"SAP HCM Basics", tools:["Employee Master","Payroll Basics","Org Management"]},
+        {t:"Intro to ABAP", tools:["ABAP Editor","Reports","Debugging Basics"]}
+      ],
+      Experienced:[
+        {t:"Advanced FICO Configuration", tools:["Asset Accounting","COPA","Bank Integration"]},
+        {t:"MM/SD Cross-module Integration", tools:["Order-to-Cash","Procure-to-Pay","Pricing Procedures"]},
+        {t:"SAP Fiori & UI5 Basics", tools:["Fiori Apps","Tile Configuration","UI5 Intro"]},
+        {t:"SAP Data Migration & Cutover", tools:["LSMW/Migration Cockpit","Cutover Planning","Testing"]},
+        {t:"SAP Integration & Interfaces", tools:["IDocs","RFC","API Basics"]},
+        {t:"Real Client Implementation Project", tools:["Blueprinting","Configuration","Go-Live Support"]}
+      ]
+    },
+    benefits:[
+      {ic:"🏢",h:"Enterprise-grade skill",p:"SAP runs the back-office of most large global enterprises."},
+      {ic:"🌐",h:"Global mobility",p:"SAP certifications are recognised and hired for worldwide."},
+      {ic:"💼",h:"Premium consulting roles",p:"Functional & techno-functional consultants command strong packages."},
+      {ic:"🔁",h:"Cross-module flexibility",p:"Learn multiple modules to specialise or go techno-functional."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"SAP Support Consultant",p:"Handle tickets and configuration on a live client landscape."},
+      {s:"Stage 2",h:"SAP Functional Consultant",p:"Own module rollouts and enhancements."},
+      {s:"Stage 3",h:"SAP Techno-Functional Lead",p:"Lead implementations across modules and geographies."}
+    ],
+    hiring:[
+      {h:"Global IT & ERP Consulting", p:"Accenture, Deloitte, Capgemini-type SAP practices"},
+      {h:"Manufacturing & Core Enterprises", p:"Organisations running SAP as their ERP backbone"},
+      {h:"Retail & FMCG Groups", p:"SAP-driven supply chain and finance teams"},
+      {h:"SAP Implementation Partners", p:"Dedicated SAP rollout and support providers"}
+    ]
+  },
+  {
+    id:"fullstack",
+    name:"Full Stack Developer",
+    icon:"💻",
+    tagline:"Build and ship complete web applications — frontend, backend, database and deployment — using the same React, Node and cloud stack product teams run in production.",
+    imgCaption:"Production-style full stack build",
+    keyTools:[{ic:"⚛️",n:"React"},{ic:"🟩",n:"Node.js"},{ic:"🍃",n:"MongoDB"},{ic:"☁️",n:"AWS"},{ic:"🐳",n:"Docker"},{ic:"🔧",n:"Git"}],
+    duration:"20 Weeks",
+    mode:"Live Online / Project-based",
+    level0:"Logical thinking, no prior coding required",
+    modules:{
+      Freshers:[
+        {t:"Web Foundations", tools:["HTML5","CSS3","Responsive Design"]},
+        {t:"JavaScript Essentials", tools:["ES6+","DOM","Async/Await"]},
+        {t:"Frontend with React", tools:["Components","Hooks","State Management"]},
+        {t:"Backend with Node.js", tools:["Express","REST APIs","Middleware"]},
+        {t:"Databases", tools:["MongoDB","SQL Basics","Mongoose/ORM"]},
+        {t:"Capstone Full Stack App", tools:["Git/GitHub","Deployment","Testing Basics"]}
+      ],
+      Experienced:[
+        {t:"Advanced React Patterns", tools:["Context/Redux","Performance Optimisation","Custom Hooks"]},
+        {t:"Scalable Backend Architecture", tools:["Microservices Basics","Authentication (JWT)","Caching"]},
+        {t:"Cloud & DevOps Essentials", tools:["AWS Basics","Docker","CI/CD Pipelines"]},
+        {t:"API Design & Integration", tools:["GraphQL Intro","Third-party APIs","API Security"]},
+        {t:"System Design Fundamentals", tools:["Load Balancing","Database Scaling","Design Interviews"]},
+        {t:"Real Client Product Build", tools:["Agile Sprints","Code Reviews","Production Deployment"]}
+      ]
+    },
+    benefits:[
+      {ic:"🚀",h:"End-to-end skill set",p:"Own a product from UI to database to deployment."},
+      {ic:"💵",h:"High earning potential",p:"Consistently one of the highest-paying entry tech roles."},
+      {ic:"🧑‍💻",h:"Freelance & startup ready",p:"Build and ship your own products or freelance projects."},
+      {ic:"📦",h:"Modern industry stack",p:"Same React/Node/Cloud tools used by product engineering teams."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"Software Engineer",p:"Contribute features across the frontend and backend."},
+      {s:"Stage 2",h:"Senior / Specialist Engineer",p:"Go deep into frontend architecture, backend systems or DevOps."},
+      {s:"Stage 3",h:"Tech Lead / Architect",p:"Own system design and mentor engineering teams."}
+    ],
+    hiring:[
+      {h:"Product & SaaS Startups", p:"Fast-moving engineering teams building core products"},
+      {h:"IT Services Companies", p:"Client project delivery across web technologies"},
+      {h:"E-commerce Tech Teams", p:"Platform, checkout and storefront engineering"},
+      {h:"Fintech & Enterprise Tech", p:"Customer portals, dashboards and internal tools"}
+    ]
+  },
+  {
+    id:"salesforce",
+    name:"Salesforce Automation",
+    icon:"☁️",
+    tagline:"Master Salesforce Admin, Flow Automation and Apex the way CRM consulting teams configure it for real sales, service and support organisations.",
+    imgCaption:"CRM automation & flow builder",
+    keyTools:[{ic:"☁️",n:"Salesforce CRM"},{ic:"🔀",n:"Flow Builder"},{ic:"⚡",n:"Lightning (LWC)"},{ic:"🧠",n:"Apex"},{ic:"🔗",n:"Integrations"},{ic:"📋",n:"Trailhead"}],
+    duration:"10 Weeks",
+    mode:"Live Online / Sandbox Practice",
+    level0:"No coding background needed to start",
+    modules:{
+      Freshers:[
+        {t:"Salesforce Admin Basics", tools:["Objects & Fields","Page Layouts","Profiles & Permissions"]},
+        {t:"Flow Automation Foundations", tools:["Screen Flows","Record-Triggered Flows","Approval Process"]},
+        {t:"Reports & Dashboards", tools:["Report Types","Dashboard Components","Sharing Rules"]},
+        {t:"Sales & Service Cloud Basics", tools:["Lead-to-Opportunity","Cases","Knowledge Base"]},
+        {t:"Data Management", tools:["Data Loader","Duplicate Rules","Validation Rules"]},
+        {t:"Admin Certification Prep", tools:["Trailhead Modules","Mock Exams","Best Practices"]}
+      ],
+      Experienced:[
+        {t:"Advanced Flow & Process Automation", tools:["Sub-flows","Scheduled Flows","Error Handling"]},
+        {t:"Apex Fundamentals", tools:["Triggers","Classes","Test Classes"]},
+        {t:"Lightning Web Components", tools:["LWC Basics","JavaScript Controllers","UI Customisation"]},
+        {t:"Integration Basics", tools:["REST API","Named Credentials","External Services"]},
+        {t:"Org Architecture & Governance", tools:["Governor Limits","Change Sets","Sandbox Strategy"]},
+        {t:"Real Client CRM Project", tools:["Requirement Gathering","Configuration","UAT Support"]}
+      ]
+    },
+    benefits:[
+      {ic:"📜",h:"Certification-driven career",p:"Salesforce certifications directly map to hiring and pay bands."},
+      {ic:"🌐",h:"Booming CRM ecosystem",p:"One of the fastest-growing enterprise software ecosystems globally."},
+      {ic:"🔧",h:"Low-code to pro-code path",p:"Start with clicks-not-code, grow into Apex and LWC development."},
+      {ic:"🤝",h:"High-visibility role",p:"Work directly with sales, service and operations leadership."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"Salesforce Administrator",p:"Own configuration, automation and user support for an org."},
+      {s:"Stage 2",h:"Salesforce Developer",p:"Build custom logic with Apex and Lightning Web Components."},
+      {s:"Stage 3",h:"Salesforce Consultant / Architect",p:"Design CRM solutions across business units."}
+    ],
+    hiring:[
+      {h:"Salesforce Partner Firms", p:"Certified implementation & consulting partners"},
+      {h:"CRM & Cloud Consulting", p:"End-to-end Salesforce delivery teams"},
+      {h:"SaaS & Enterprise Software", p:"In-house CRM and RevOps teams"},
+      {h:"Sales-Ops of Large Corporates", p:"Internal Salesforce admin and automation teams"}
+    ]
+  },
+  {
+    id:"testing",
+    name:"Manual Testing",
+    icon:"🐞",
+    tagline:"Learn the exact test design, bug lifecycle and QA process real product teams use to ship reliable software — the strongest foundation before automation testing.",
+    imgCaption:"QA test case & bug tracking workflow",
+    keyTools:[{ic:"🐞",n:"Jira"},{ic:"📮",n:"Postman"},{ic:"🧪",n:"TestRail"},{ic:"🕸️",n:"Selenium (Intro)"},{ic:"📋",n:"Test Cases"},{ic:"🔁",n:"Regression Suites"}],
+    duration:"8 Weeks",
+    mode:"Live Online / Hybrid",
+    level0:"No coding background needed",
+    modules:{
+      Freshers:[
+        {t:"SDLC & STLC Foundations", tools:["Software Lifecycle","Test Levels","Test Types"]},
+        {t:"Test Case Design", tools:["Test Scenarios","Boundary Value Analysis","Equivalence Partitioning"]},
+        {t:"Bug Life Cycle & Reporting", tools:["Jira","Bug Severity/Priority","Defect Reports"]},
+        {t:"Functional & Regression Testing", tools:["Test Suites","Smoke/Sanity Testing","Test Data"]},
+        {t:"Intro to API Testing", tools:["Postman","Status Codes","Request/Response Validation"]},
+        {t:"Test Management Tools", tools:["TestRail","Test Plans","Traceability Matrix"]}
+      ],
+      Experienced:[
+        {t:"Advanced Test Strategy", tools:["Risk-based Testing","Test Estimation","Test Metrics"]},
+        {t:"Intro to Automation Concepts", tools:["Selenium Basics","Locators","Automation Feasibility"]},
+        {t:"Performance & Security Awareness", tools:["Load Testing Basics","OWASP Basics","Non-functional Testing"]},
+        {t:"Agile QA Practices", tools:["Sprint Testing","Definition of Done","Story Point Estimation"]},
+        {t:"CI/CD Awareness for QA", tools:["Jenkins Basics","Test Reports in Pipeline","Bug Triage"]},
+        {t:"Real Client QA Project", tools:["Full Test Cycle","Client Sign-off","Release Testing"]}
+      ]
+    },
+    benefits:[
+      {ic:"🚪",h:"Easiest QA entry point",p:"No coding required to start a stable, in-demand QA career."},
+      {ic:"🧭",h:"Clear growth roadmap",p:"Direct path into Automation Testing and SDET roles."},
+      {ic:"🛡️",h:"Always-needed skill",p:"Every software team needs quality assurance, regardless of tech stack."},
+      {ic:"🤝",h:"Cross-team exposure",p:"Work closely with developers, product and business teams."}
+    ],
+    whatNext:[
+      {s:"Stage 1",h:"Manual QA Engineer",p:"Own test cases, execution and bug reporting for a product."},
+      {s:"Stage 2",h:"Automation Test Engineer",p:"Add Selenium/API automation skills to your QA base."},
+      {s:"Stage 3",h:"SDET / QA Lead",p:"Own test strategy and mentor a quality engineering team."}
+    ],
+    hiring:[
+      {h:"IT Services & Product QA", p:"Dedicated quality engineering teams"},
+      {h:"Banking & Fintech", p:"High-compliance release testing teams"},
+      {h:"Healthcare Software", p:"Regulated, high-accuracy QA processes"},
+      {h:"E-commerce & SaaS Platforms", p:"Continuous release and regression testing teams"}
+    ]
+  }
+];
+
+const state = {};
+COURSES.forEach(c => state[c.id] = "Freshers");
+
+function renderNav(){
+  const nav = document.getElementById("tabNav");
+  nav.innerHTML = COURSES.map((c,i)=>
+    `<button class="tab-btn ${i===0?'active':''}" data-course="${c.id}" onclick="showCourse('${c.id}')">${c.icon} ${c.name}</button>`
+  ).join("") + `<button class="tab-btn" data-course="alumni" onclick="showCourse('alumni')">🎓 Our Faculty</button>`;
+}
+
+function moduleCard(m, idx){
+  return `<div class="module-card">
+    <h4><span class="module-num">${String(idx+1).padStart(2,'0')}</span>${m.t}</h4>
+    <div class="chip-row">${m.tools.map(t=>`<span class="chip">${t}</span>`).join("")}</div>
+  </div>`;
+}
+
+/* Inline SVG hero illustrations — render instantly, never break, no external hotlinks */
+function heroSVG(id){
+  const svgs = {
+    mis:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <g opacity="0.9">
+        <rect x="60" y="60" width="280" height="200" rx="10" fill="#182247" stroke="#2B3A66"/>
+        ${[0,1,2,3,4].map(r=>`<line x1="60" y1="${100+r*32}" x2="340" y2="${100+r*32}" stroke="#2B3A66" stroke-width="1"/>`).join("")}
+        ${[0,1,2,3].map(cIdx=>`<line x1="${60+ (cIdx+1)*56}" y1="60" x2="${60+(cIdx+1)*56}" y2="260" stroke="#2B3A66" stroke-width="1"/>`).join("")}
+        <rect x="70" y="70" width="46" height="20" rx="4" fill="#FFB020"/>
+      </g>
+      <g>
+        <rect x="380" y="180" width="34" height="80" rx="4" fill="#7C5CFF"/>
+        <rect x="424" y="140" width="34" height="120" rx="4" fill="#FFB020"/>
+        <rect x="468" y="100" width="34" height="160" rx="4" fill="#7C5CFF"/>
+        <rect x="512" y="150" width="34" height="110" rx="4" fill="#FFD37A"/>
+      </g>
+      <circle cx="600" cy="120" r="46" fill="none" stroke="#FFB020" stroke-width="16" stroke-dasharray="80 200"/>
+      <circle cx="600" cy="120" r="46" fill="none" stroke="#7C5CFF" stroke-width="16" stroke-dasharray="60 200" stroke-dashoffset="-80"/>
+    </svg>`,
+    "data-analyst":`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <rect x="50" y="50" width="600" height="300" rx="14" fill="#182247" stroke="#2B3A66"/>
+      <polyline points="80,260 160,210 230,240 300,150 370,190 440,110 520,150 600,90" fill="none" stroke="#FFB020" stroke-width="4"/>
+      ${[[80,260],[160,210],[230,240],[300,150],[370,190],[440,110],[520,150],[600,90]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#7C5CFF"/>`).join("")}
+      <rect x="80" y="290" width="30" height="30" fill="#7C5CFF" opacity="0.5"/>
+      <rect x="130" y="270" width="30" height="50" fill="#7C5CFF" opacity="0.7"/>
+      <rect x="180" y="250" width="30" height="70" fill="#FFB020" opacity="0.6"/>
+      <rect x="230" y="290" width="30" height="30" fill="#7C5CFF" opacity="0.5"/>
+    </svg>`,
+    sap:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <circle cx="350" cy="200" r="54" fill="#182247" stroke="#FFB020" stroke-width="3"/>
+      <text x="350" y="207" text-anchor="middle" fill="#FFB020" font-family="Sora" font-weight="800" font-size="22">ERP</text>
+      ${[["FI",180,110],["MM",520,110],["SD",180,290],["HR",520,290],["CO",350,80],["BW",350,320]].map(m=>`
+        <line x1="350" y1="200" x2="${m[1]}" y2="${m[2]}" stroke="#2B3A66" stroke-width="2"/>
+        <rect x="${m[1]-38}" y="${m[2]-24}" width="76" height="48" rx="10" fill="#1B2547" stroke="#7C5CFF"/>
+        <text x="${m[1]}" y="${m[2]+6}" text-anchor="middle" fill="#EDEFF7" font-family="Sora" font-weight="700" font-size="16">${m[0]}</text>
+      `).join("")}
+    </svg>`,
+    fullstack:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <rect x="70" y="60" width="560" height="280" rx="12" fill="#0D1424" stroke="#2B3A66"/>
+      <rect x="70" y="60" width="560" height="34" rx="12" fill="#182247"/>
+      <circle cx="94" cy="77" r="6" fill="#FF6B6B"/><circle cx="114" cy="77" r="6" fill="#FFD166"/><circle cx="134" cy="77" r="6" fill="#8CE99A"/>
+      <text x="150" y="120" fill="#7C5CFF" font-family="JetBrains Mono" font-size="15">function App() {</text>
+      <text x="170" y="145" fill="#FFB020" font-family="JetBrains Mono" font-size="15">return &lt;Home /&gt;</text>
+      <text x="150" y="170" fill="#7C5CFF" font-family="JetBrains Mono" font-size="15">}</text>
+      <text x="150" y="205" fill="#8CE99A" font-family="JetBrains Mono" font-size="15">app.listen(3000)</text>
+      <ellipse cx="560" cy="240" rx="34" ry="14" fill="none" stroke="#61DAFB" stroke-width="3"/>
+      <ellipse cx="560" cy="240" rx="34" ry="14" fill="none" stroke="#61DAFB" stroke-width="3" transform="rotate(60 560 240)"/>
+      <ellipse cx="560" cy="240" rx="34" ry="14" fill="none" stroke="#61DAFB" stroke-width="3" transform="rotate(120 560 240)"/>
+      <circle cx="560" cy="240" r="7" fill="#61DAFB"/>
+    </svg>`,
+    salesforce:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <ellipse cx="230" cy="160" rx="120" ry="66" fill="#182247" stroke="#7C5CFF" stroke-width="3"/>
+      <ellipse cx="150" cy="180" rx="70" ry="42" fill="#182247" stroke="#7C5CFF" stroke-width="3"/>
+      <ellipse cx="320" cy="190" rx="80" ry="46" fill="#182247" stroke="#7C5CFF" stroke-width="3"/>
+      <text x="230" y="170" text-anchor="middle" fill="#FFB020" font-family="Sora" font-weight="800" font-size="20">CRM</text>
+      <rect x="440" y="90" width="170" height="220" rx="12" fill="#0D1424" stroke="#2B3A66"/>
+      <rect x="460" y="110" width="60" height="60" rx="30" fill="#FFB020" opacity="0.85"/>
+      ${[0,1,2,3].map(i=>`<rect x="460" y="${190+i*24}" width="130" height="12" rx="6" fill="#2B3A66"/>`).join("")}
+      <circle cx="590" cy="130" r="10" fill="#8CE99A"/>
+    </svg>`,
+    testing:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="700" height="400" fill="#101830"/>
+      <rect x="80" y="60" width="300" height="280" rx="12" fill="#182247" stroke="#2B3A66"/>
+      ${[0,1,2,3,4].map(i=>`
+        <rect x="105" y="${95+i*44}" width="20" height="20" rx="5" fill="${i%2===0?'#8CE99A':'#FF6B6B'}"/>
+        <rect x="140" y="${100+i*44}" width="200" height="10" rx="5" fill="#2B3A66"/>
+      `).join("")}
+      <circle cx="530" cy="180" r="70" fill="none" stroke="#7C5CFF" stroke-width="10"/>
+      <line x1="580" y1="230" x2="640" y2="290" stroke="#7C5CFF" stroke-width="14" stroke-linecap="round"/>
+      <circle cx="530" cy="180" r="30" fill="#FFB020" opacity="0.25"/>
+      <text x="530" y="188" text-anchor="middle" font-size="26">🐞</text>
+    </svg>`
+  };
+  return svgs[id] || svgs.mis;
+}
+
+
+function renderCourse(c){
+  return `
+  <section class="page" id="page-${c.id}">
+    <div class="hero">
+      <div class="hero-orb"></div>
+      <div class="hero-inner">
+        <div>
+          <div class="ribbon"><span class="pulse"></span>Coming Soon at Glowminds AI</div>
+          <h1>${c.icon} ${c.name} <em>Program</em></h1>
+          <p class="tagline">${c.tagline}</p>
+          <div class="meta-row">
+            <div class="meta-item"><b>${c.duration}</b>Duration</div>
+            <div class="meta-item"><b>${c.mode}</b>Format</div>
+            <div class="meta-item"><b>${c.level0}</b>Entry Level</div>
+          </div>
+        </div>
+        <div class="hero-img-wrap">
+          ${heroSVG(c.id)}
+          <div class="img-caption">${c.imgCaption}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Choose Your Track</div>
+      <h2>Syllabus &amp; Real-time Tools</h2>
+      <p class="sub">Two tracks, same job outcome — pick the depth that matches where you're starting from.</p>
+      <div class="level-toggle">
+        <button class="lvl-btn active" data-level="Freshers" onclick="setLevel('${c.id}','Freshers',this)">🎓 Freshers</button>
+        <button class="lvl-btn" data-level="Experienced" onclick="setLevel('${c.id}','Experienced',this)">💼 Experienced</button>
+      </div>
+      <div class="track-note" id="note-${c.id}">
+        Freshers Track: Foundation concepts, guided real-world exercises, and placement assistance from zero prior background.
+      </div>
+      <div class="module-grid" id="modules-${c.id}"></div>
+
+      <div class="realtime-note">
+        <span class="flag">🏭</span>
+        <p><strong>Built on industry real-time syllabus:</strong> every module and tool in this page mirrors exactly how companies use ${c.name} professionals on live projects — not textbook theory.</p>
+      </div>
+
+      <div class="toolkit-strip">
+        <div class="tk-label">Real Tools You'll Work With</div>
+        <div class="toolkit-row">
+          ${c.keyTools.map(k=>`<div class="tk-chip"><span class="tk-ic">${k.ic}</span>${k.n}</div>`).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Why This Course</div>
+      <h2>Benefits You Get</h2>
+      <div class="benefit-grid">
+        ${c.benefits.map(b=>`<div class="benefit-card"><span class="ic">${b.ic}</span><h4>${b.h}</h4><p>${b.p}</p></div>`).join("")}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Career Roadmap</div>
+      <h2>What's Next After This Course</h2>
+      <div class="path">
+        ${c.whatNext.map(w=>`<div class="path-step"><div class="stage">${w.s}</div><h4>${w.h}</h4><p>${w.p}</p></div>`).join("")}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Placement Landscape</div>
+      <h2>Who Hires ${c.name} Graduates</h2>
+      <div class="hire-wrap">
+        <div>
+          <h3>Company Categories Hiring</h3>
+          ${c.hiring.slice(0,2).map(h=>`<div class="hire-cat"><b>${h.h}</b>${h.p}</div>`).join("")}
+        </div>
+        <div>
+          <h3 style="opacity:0; user-select:none;">.</h3>
+          ${c.hiring.slice(2).map(h=>`<div class="hire-cat"><b>${h.h}</b>${h.p}</div>`).join("")}
+        </div>
+      </div>
+
+      <div class="faculty-band">
+        <div class="faculty-badges">
+          <div class="fb iit">IIT</div>
+          <div class="fb iim">IIM</div>
+          <div class="fb jntua">JNTUA</div>
+        </div>
+        <div>
+          <p><strong>Taught by industry faculty:</strong> our trainers are experienced alumni of IIT, IIM &amp; JNTUA who bring real corporate project experience into every class — not just academic theory.</p>
+          <button class="faculty-link-btn" onclick="showCourse('alumni')">Meet Our Full Faculty →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-cta">
+      <div class="glow-bg"></div>
+      <h3>${c.name} — Launching Soon on Glowminds AI</h3>
+      <p>Get early access, real-time projects, and placement support the day it goes live.</p>
+      <span class="cta-btn">🔔 Notify Me When It Launches</span>
+      <div class="cta-sub">Coming Soon · Glowminds AI Career Programs</div>
+    </div>
+  </section>`;
+}
+
+const ALUMNI = [
+  {
+    name:"Ramesh Bhargav",
+    photo:"https://i.pravatar.cc/300?img=12",
+    badge:"iit", badgeLabel:"IIT Alumnus",
+    role:"Lead Trainer — Full Stack Development",
+    years:"13",
+    projects:"40+",
+    tags:["React","Node.js","System Design","Cloud Architecture"],
+    bio:"Ramesh holds an engineering degree from an IIT and spent over a decade building and scaling web platforms for product and consulting companies. He specialises in taking freshers from zero to production-ready full stack engineers, with a strong focus on real system design thinking, clean code practices and cloud deployment workflows used by modern engineering teams."
+  },
+  {
+    name:"Priya Nair",
+    photo:"https://i.pravatar.cc/300?img=32",
+    badge:"iim", badgeLabel:"IIM Alumnus",
+    role:"Lead Trainer — MIS Executive & Data Analyst",
+    years:"10",
+    projects:"60+",
+    tags:["Advanced Excel","Power BI","SQL","Business Reporting"],
+    bio:"Priya completed her management education at an IIM and has led enterprise reporting and business intelligence functions across finance and operations teams. She brings a business-first approach to MIS and Data Analyst training, teaching students to build dashboards that leadership teams actually rely on for decisions."
+  },
+  {
+    name:"Karthik Subramaniam",
+    badge:"jntua", badgeLabel:"JNTUA Alumnus",
+    photo:"https://i.pravatar.cc/300?img=53",
+    role:"Lead Trainer — SAP All Modules",
+    years:"14",
+    projects:"25+ implementations",
+    tags:["SAP S/4HANA","FICO","MM/SD","ABAP"],
+    bio:"Karthik graduated from JNTUA and has worked as a functional and techno-functional SAP consultant across manufacturing and retail clients. He has led multiple end-to-end SAP implementations and specialises in teaching cross-module integration the way real client landscapes are configured, not just isolated theory."
+  },
+  {
+    name:"Sneha Reddy",
+    photo:"https://i.pravatar.cc/300?img=45",
+    badge:"iit", badgeLabel:"IIT Alumnus",
+    role:"Lead Trainer — Data Analyst",
+    years:"9",
+    projects:"50+ datasets/dashboards",
+    tags:["SQL","Python","A/B Testing","Tableau"],
+    bio:"Sneha is an IIT alumna who has worked as a data analyst for fintech and e-commerce companies, building analytics pipelines and experimentation frameworks. She focuses on teaching SQL and Python the way analysts actually use them on the job — messy real datasets, real business questions and real stakeholder pressure."
+  },
+  {
+    name:"Anil Kumar",
+    photo:"https://i.pravatar.cc/300?img=68",
+    badge:"jntua", badgeLabel:"JNTUA Alumnus",
+    role:"Lead Trainer — Manual Testing",
+    years:"11",
+    projects:"70+ release cycles",
+    tags:["Test Case Design","Jira","Bug Life Cycle","API Testing"],
+    bio:"Anil studied at JNTUA and has spent over a decade in quality engineering roles across banking and healthcare software teams. He teaches manual testing as a rigorous, process-driven discipline, giving students the exact test design and bug-reporting habits that make QA engineers indispensable on a release team."
+  },
+  {
+    name:"Divya Menon",
+    photo:"https://i.pravatar.cc/300?img=47",
+    badge:"iim", badgeLabel:"IIM Alumnus",
+    role:"Lead Trainer — Salesforce Automation",
+    years:"8",
+    projects:"30+ CRM rollouts",
+    tags:["Salesforce Admin","Flow Builder","Apex Basics","CRM Strategy"],
+    bio:"Divya pursued her management education at an IIM and later specialised in CRM strategy and Salesforce consulting for sales-led organisations. She trains students to think like CRM consultants first and administrators second — understanding the business process before automating it in Salesforce."
+  },
+  {
+    name:"Suresh Rao",
+    photo:"https://i.pravatar.cc/300?img=59",
+    badge:"iit", badgeLabel:"IIT Alumnus",
+    role:"Senior Trainer — Full Stack & Cloud",
+    years:"13",
+    projects:"35+ product releases",
+    tags:["Node.js","AWS","Docker","API Design"],
+    bio:"Suresh, an IIT alumnus, has architected backend systems and cloud deployments for SaaS and enterprise products. Alongside Ramesh, he runs the advanced Full Stack track, focused on scalable backend architecture, cloud fundamentals and the DevOps practices used by real product engineering teams."
+  },
+  {
+    name:"Meera Iyer",
+    photo:"https://i.pravatar.cc/300?img=44",
+    badge:"jntua", badgeLabel:"JNTUA Alumnus",
+    role:"Senior Trainer — Data Analyst & MIS",
+    years:"10",
+    projects:"45+ reporting systems",
+    tags:["Power Query","DAX","Data Modelling","Reporting Automation"],
+    bio:"Meera completed her studies at JNTUA and has built reporting and analytics systems across manufacturing and FMCG organisations. She specialises in data modelling and automation, helping students move from manual spreadsheet work to fully automated, scalable reporting systems."
+  }
+];
+
+function renderAlumniPage(){
+  const totalYears = ALUMNI.reduce((s,a)=>s+parseInt(a.years),0);
+  const avgYears = Math.round(totalYears/ALUMNI.length);
+  return `
+  <section class="page" id="page-alumni">
+    <div class="alumni-hero">
+      <div class="hero-orb"></div>
+      <div class="ribbon" style="justify-content:center; display:inline-flex; position:relative; z-index:2;"><span class="pulse"></span>Meet The Team</div>
+      <h1>The Faculty Behind Glowminds AI</h1>
+      <p>Every course is taught by trainers who have actually done the job — engineers, analysts and consultants who are alumni of IIT, IIM &amp; JNTUA, with real corporate project experience behind every lesson.</p>
+      <div class="stat-bar">
+        <div class="stat-box"><b>${ALUMNI.length}</b><span>Lead Trainers</span></div>
+        <div class="stat-box"><b>${avgYears}+</b><span>Avg. Years Experience</span></div>
+        <div class="stat-box"><b>3</b><span>Institutes Represented</span></div>
+        <div class="stat-box"><b>6</b><span>Career Programs</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Our Faculty</div>
+      <h2>Trainers With Real Industry Backgrounds</h2>
+      <p class="sub">Alumni of IIT, IIM &amp; JNTUA who moved from classrooms into real companies — and are now bringing that real-world experience back into training.</p>
+      <div class="alumni-grid">
+        ${ALUMNI.map(a=>`
+        <div class="alumni-card">
+          <div class="alumni-top">
+            <img src="${a.photo}" alt="${a.name}">
+            <div>
+              <div class="alumni-name">${a.name}</div>
+              <div class="alumni-role">${a.role}</div>
+              <div class="alumni-badges"><span class="alumni-badge ${a.badge}">${a.badgeLabel}</span></div>
+            </div>
+          </div>
+          <div class="alumni-stats">
+            <div><b>${a.years} yrs</b>Industry Experience</div>
+            <div><b>${a.projects}</b>Delivered</div>
+          </div>
+          <p class="bio">${a.bio}</p>
+          <div class="alumni-tags">${a.tags.map(t=>`<span class="alumni-tag">${t}</span>`).join("")}</div>
+        </div>`).join("")}
+      </div>
+
+      <div class="realtime-note">
+        <span class="flag">🎓</span>
+        <p><strong>Why this matters:</strong> every syllabus on this site is shaped directly by these trainers' own industry experience — so the tools, workflows and projects you practice are the same ones companies expect on day one.</p>
+      </div>
+    </div>
+
+    <div class="course-cta">
+      <div class="glow-bg"></div>
+      <h3>Learn Directly From Industry Practitioners</h3>
+      <p>All 6 career programs at Glowminds AI are taught by this faculty team — launching soon.</p>
+      <span class="cta-btn">🔔 Notify Me When Programs Launch</span>
+      <div class="cta-sub">Coming Soon · Glowminds AI Career Programs</div>
+    </div>
+  </section>`;
+}
+
+function buildAll(){
+  renderNav();
+  const wrap = document.getElementById("pages");
+  wrap.innerHTML = COURSES.map(renderCourse).join("") + renderAlumniPage();
+  COURSES.forEach(c => refreshModules(c.id));
+  document.getElementById(`page-${COURSES[0].id}`).classList.add("active");
+}
+
+function refreshModules(id){
+  const c = COURSES.find(x=>x.id===id);
+  const level = state[id];
+  const list = c.modules[level];
+  document.getElementById(`modules-${id}`).innerHTML = list.map(moduleCard).join("");
+  const note = document.getElementById(`note-${id}`);
+  note.textContent = level==="Freshers"
+    ? `Freshers Track: Foundation concepts, guided real-world exercises, and placement assistance from zero prior background.`
+    : `Experienced Track: Advanced, client-style modules covering real project scenarios, optimisation and certification-level depth.`;
+}
+
+function setLevel(id, level, btn){
+  state[id] = level;
+  const group = btn.parentElement;
+  group.querySelectorAll(".lvl-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  refreshModules(id);
+}
+
+function showCourse(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(`page-${id}`).classList.add("active");
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelector(`.tab-btn[data-course="${id}"]`).classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+buildAll();
+</script>
+</body>
+</html>
