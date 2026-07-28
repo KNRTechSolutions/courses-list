@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glowminds AI — Career Courses</title>
+<title>Glowminds AI - Career Courses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -341,7 +341,7 @@ const COURSES = [
     id:"mis",
     name:"MIS Executive",
     icon:"📊",
-    tagline:"Turn raw business data into the dashboards and reports leadership actually reads — the exact Excel, SQL and Power BI workflow MIS teams run every day inside real companies.",
+    tagline:"Turn raw business data into the dashboards and reports leadership actually reads - the exact Excel, SQL and Power BI workflow MIS teams run every day inside real companies.",
     imgCaption:"Live MIS reporting workflow",
     keyTools:[{ic:"📗",n:"Advanced Excel"},{ic:"📊",n:"Power BI"},{ic:"🗄️",n:"SQL"},{ic:"⚙️",n:"VBA Macros"},{ic:"📑",n:"Power Query"},{ic:"📈",n:"Google Sheets"}],
     duration:"8 Weeks",
@@ -367,7 +367,7 @@ const COURSES = [
     },
     benefits:[
       {ic:"⚡",h:"Job-ready in weeks",p:"A tight, practical curriculum that gets you interview-ready fast, without unnecessary theory."},
-      {ic:"📈",h:"Instant workplace value",p:"Automate the reports your manager currently builds by hand — day-one impact."},
+      {ic:"📈",h:"Instant workplace value",p:"Automate the reports your manager currently builds by hand - day-one impact."},
       {ic:"🧩",h:"Foundation for growth",p:"MIS is the on-ramp into Business Analyst and Data Analyst roles."},
       {ic:"🏠",h:"Remote-friendly role",p:"MIS Executive is one of the most in-demand remote/hybrid job titles today."}
     ],
@@ -387,7 +387,7 @@ const COURSES = [
     id:"data-analyst",
     name:"Data Analyst",
     icon:"📈",
-    tagline:"Learn the SQL, Python and BI stack that product, fintech and e-commerce teams use to turn data into decisions — real datasets, real dashboards, real business questions.",
+    tagline:"Learn the SQL, Python and BI stack that product, fintech and e-commerce teams use to turn data into decisions - real datasets, real dashboards, real business questions.",
     imgCaption:"Real-world analytics workflow",
     keyTools:[{ic:"🗄️",n:"SQL"},{ic:"🐍",n:"Python"},{ic:"📊",n:"Power BI"},{ic:"📈",n:"Tableau"},{ic:"📗",n:"Excel"},{ic:"📉",n:"Statistics"}],
     duration:"12 Weeks",
@@ -412,7 +412,7 @@ const COURSES = [
       ]
     },
     benefits:[
-      {ic:"🌍",h:"Cross-industry demand",p:"Every sector — fintech, retail, healthcare — needs data analysts."},
+      {ic:"🌍",h:"Cross-industry demand",p:"Every sector - fintech, retail, healthcare - needs data analysts."},
       {ic:"💰",h:"Strong pay growth",p:"One of the fastest-growing salary curves in early-career tech roles."},
       {ic:"🧠",h:"Gateway to Data Science",p:"Direct pathway into ML and Data Science career tracks."},
       {ic:"🛠️",h:"Real tool stack",p:"Same SQL/Python/BI stack used by analysts inside product companies."}
@@ -433,7 +433,7 @@ const COURSES = [
     id:"sap",
     name:"SAP All Modules",
     icon:"🧩",
-    tagline:"Get hands-on with SAP S/4HANA across FICO, MM, SD and HCM — configured exactly the way enterprise SAP consultants build it for live client landscapes.",
+    tagline:"Get hands-on with SAP S/4HANA across FICO, MM, SD and HCM - configured exactly the way enterprise SAP consultants build it for live client landscapes.",
     imgCaption:"Enterprise SAP S/4HANA landscape",
     keyTools:[{ic:"🧩",n:"SAP S/4HANA"},{ic:"💰",n:"FICO"},{ic:"📦",n:"MM"},{ic:"🛒",n:"SD"},{ic:"👥",n:"HCM"},{ic:"🖥️",n:"Fiori"}],
     duration:"16 Weeks",
@@ -479,7 +479,7 @@ const COURSES = [
     id:"fullstack",
     name:"Full Stack Developer",
     icon:"💻",
-    tagline:"Build and ship complete web applications — frontend, backend, database and deployment — using the same React, Node and cloud stack product teams run in production.",
+    tagline:"Build and ship complete web applications - frontend, backend, database and deployment - using the same React, Node and cloud stack product teams run in production.",
     imgCaption:"Production-style full stack build",
     keyTools:[{ic:"⚛️",n:"React"},{ic:"🟩",n:"Node.js"},{ic:"🍃",n:"MongoDB"},{ic:"☁️",n:"AWS"},{ic:"🐳",n:"Docker"},{ic:"🔧",n:"Git"}],
     duration:"20 Weeks",
@@ -571,7 +571,7 @@ const COURSES = [
     id:"testing",
     name:"Manual Testing",
     icon:"🐞",
-    tagline:"Learn the exact test design, bug lifecycle and QA process real product teams use to ship reliable software — the strongest foundation before automation testing.",
+    tagline:"Learn the exact test design, bug lifecycle and QA process real product teams use to ship reliable software - the strongest foundation before automation testing.",
     imgCaption:"QA test case & bug tracking workflow",
     keyTools:[{ic:"🐞",n:"Jira"},{ic:"📮",n:"Postman"},{ic:"🧪",n:"TestRail"},{ic:"🕸️",n:"Selenium (Intro)"},{ic:"📋",n:"Test Cases"},{ic:"🔁",n:"Regression Suites"}],
     duration:"8 Weeks",
@@ -632,7 +632,7 @@ function moduleCard(m, idx){
   </div>`;
 }
 
-/* Inline SVG hero illustrations — render instantly, never break, no external hotlinks */
+/* Inline SVG hero illustrations - render instantly, never break, no external hotlinks */
 function heroSVG(id){
   const svgs = {
     mis:`<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
@@ -740,7 +740,7 @@ function renderCourse(c){
     <div class="section">
       <div class="eyebrow">Choose Your Track</div>
       <h2>Syllabus &amp; Real-time Tools</h2>
-      <p class="sub">Two tracks, same job outcome — pick the depth that matches where you're starting from.</p>
+      <p class="sub">Two tracks, same job outcome - pick the depth that matches where you're starting from.</p>
       <div class="level-toggle">
         <button class="lvl-btn active" data-level="Freshers" onclick="setLevel('${c.id}','Freshers',this)">🎓 Freshers</button>
         <button class="lvl-btn" data-level="Experienced" onclick="setLevel('${c.id}','Experienced',this)">💼 Experienced</button>
@@ -752,7 +752,7 @@ function renderCourse(c){
 
       <div class="realtime-note">
         <span class="flag">🏭</span>
-        <p><strong>Built on industry real-time syllabus:</strong> every module and tool in this page mirrors exactly how companies use ${c.name} professionals on live projects — not textbook theory.</p>
+        <p><strong>Built on industry real-time syllabus:</strong> every module and tool in this page mirrors exactly how companies use ${c.name} professionals on live projects - not textbook theory.</p>
       </div>
 
       <div class="toolkit-strip">
@@ -800,7 +800,7 @@ function renderCourse(c){
           <div class="fb jntua">JNTUA</div>
         </div>
         <div>
-          <p><strong>Taught by industry faculty:</strong> our trainers are experienced alumni of IIT, IIM &amp; JNTUA who bring real corporate project experience into every class — not just academic theory.</p>
+          <p><strong>Taught by industry faculty:</strong> our trainers are experienced alumni of IIT, IIM &amp; JNTUA who bring real corporate project experience into every class - not just academic theory.</p>
           <button class="faculty-link-btn" onclick="showCourse('alumni')">Meet Our Full Faculty →</button>
         </div>
       </div>
@@ -808,7 +808,7 @@ function renderCourse(c){
 
     <div class="course-cta">
       <div class="glow-bg"></div>
-      <h3>${c.name} — Launching Soon on Glowminds AI</h3>
+      <h3>${c.name} - Launching Soon on Glowminds AI</h3>
       <p>Get early access, real-time projects, and placement support the day it goes live.</p>
       <span class="cta-btn">🔔 Notify Me When It Launches</span>
       <div class="cta-sub">Coming Soon · Glowminds AI Career Programs</div>
@@ -821,7 +821,7 @@ const ALUMNI = [
     name:"Ramesh Bhargav",
     photo:"https://i.pravatar.cc/300?img=12",
     badge:"iit", badgeLabel:"IIT Alumnus",
-    role:"Lead Trainer — Full Stack Development",
+    role:"Lead Trainer - Full Stack Development",
     years:"13",
     projects:"40+",
     tags:["React","Node.js","System Design","Cloud Architecture"],
@@ -831,7 +831,7 @@ const ALUMNI = [
     name:"Priya Nair",
     photo:"https://i.pravatar.cc/300?img=32",
     badge:"iim", badgeLabel:"IIM Alumnus",
-    role:"Lead Trainer — MIS Executive & Data Analyst",
+    role:"Lead Trainer - MIS Executive & Data Analyst",
     years:"10",
     projects:"60+",
     tags:["Advanced Excel","Power BI","SQL","Business Reporting"],
@@ -841,7 +841,7 @@ const ALUMNI = [
     name:"Karthik Subramaniam",
     badge:"jntua", badgeLabel:"JNTUA Alumnus",
     photo:"https://i.pravatar.cc/300?img=53",
-    role:"Lead Trainer — SAP All Modules",
+    role:"Lead Trainer - SAP All Modules",
     years:"14",
     projects:"25+ implementations",
     tags:["SAP S/4HANA","FICO","MM/SD","ABAP"],
@@ -851,17 +851,17 @@ const ALUMNI = [
     name:"Sneha Reddy",
     photo:"https://i.pravatar.cc/300?img=45",
     badge:"iit", badgeLabel:"IIT Alumnus",
-    role:"Lead Trainer — Data Analyst",
+    role:"Lead Trainer - Data Analyst",
     years:"9",
     projects:"50+ datasets/dashboards",
     tags:["SQL","Python","A/B Testing","Tableau"],
-    bio:"Sneha is an IIT alumna who has worked as a data analyst for fintech and e-commerce companies, building analytics pipelines and experimentation frameworks. She focuses on teaching SQL and Python the way analysts actually use them on the job — messy real datasets, real business questions and real stakeholder pressure."
+    bio:"Sneha is an IIT alumna who has worked as a data analyst for fintech and e-commerce companies, building analytics pipelines and experimentation frameworks. She focuses on teaching SQL and Python the way analysts actually use them on the job - messy real datasets, real business questions and real stakeholder pressure."
   },
   {
     name:"Anil Kumar",
     photo:"https://i.pravatar.cc/300?img=68",
     badge:"jntua", badgeLabel:"JNTUA Alumnus",
-    role:"Lead Trainer — Manual Testing",
+    role:"Lead Trainer - Manual Testing",
     years:"11",
     projects:"70+ release cycles",
     tags:["Test Case Design","Jira","Bug Life Cycle","API Testing"],
@@ -871,17 +871,17 @@ const ALUMNI = [
     name:"Divya Menon",
     photo:"https://i.pravatar.cc/300?img=47",
     badge:"iim", badgeLabel:"IIM Alumnus",
-    role:"Lead Trainer — Salesforce Automation",
+    role:"Lead Trainer - Salesforce Automation",
     years:"8",
     projects:"30+ CRM rollouts",
     tags:["Salesforce Admin","Flow Builder","Apex Basics","CRM Strategy"],
-    bio:"Divya pursued her management education at an IIM and later specialised in CRM strategy and Salesforce consulting for sales-led organisations. She trains students to think like CRM consultants first and administrators second — understanding the business process before automating it in Salesforce."
+    bio:"Divya pursued her management education at an IIM and later specialised in CRM strategy and Salesforce consulting for sales-led organisations. She trains students to think like CRM consultants first and administrators second - understanding the business process before automating it in Salesforce."
   },
   {
     name:"Suresh Rao",
     photo:"https://i.pravatar.cc/300?img=59",
     badge:"iit", badgeLabel:"IIT Alumnus",
-    role:"Senior Trainer — Full Stack & Cloud",
+    role:"Senior Trainer - Full Stack & Cloud",
     years:"13",
     projects:"35+ product releases",
     tags:["Node.js","AWS","Docker","API Design"],
@@ -891,7 +891,7 @@ const ALUMNI = [
     name:"Meera Iyer",
     photo:"https://i.pravatar.cc/300?img=44",
     badge:"jntua", badgeLabel:"JNTUA Alumnus",
-    role:"Senior Trainer — Data Analyst & MIS",
+    role:"Senior Trainer - Data Analyst & MIS",
     years:"10",
     projects:"45+ reporting systems",
     tags:["Power Query","DAX","Data Modelling","Reporting Automation"],
@@ -908,7 +908,7 @@ function renderAlumniPage(){
       <div class="hero-orb"></div>
       <div class="ribbon" style="justify-content:center; display:inline-flex; position:relative; z-index:2;"><span class="pulse"></span>Meet The Team</div>
       <h1>The Faculty Behind Glowminds AI</h1>
-      <p>Every course is taught by trainers who have actually done the job — engineers, analysts and consultants who are alumni of IIT, IIM &amp; JNTUA, with real corporate project experience behind every lesson.</p>
+      <p>Every course is taught by trainers who have actually done the job - engineers, analysts and consultants who are alumni of IIT, IIM &amp; JNTUA, with real corporate project experience behind every lesson.</p>
       <div class="stat-bar">
         <div class="stat-box"><b>${ALUMNI.length}</b><span>Lead Trainers</span></div>
         <div class="stat-box"><b>${avgYears}+</b><span>Avg. Years Experience</span></div>
@@ -920,7 +920,7 @@ function renderAlumniPage(){
     <div class="section">
       <div class="eyebrow">Our Faculty</div>
       <h2>Trainers With Real Industry Backgrounds</h2>
-      <p class="sub">Alumni of IIT, IIM &amp; JNTUA who moved from classrooms into real companies — and are now bringing that real-world experience back into training.</p>
+      <p class="sub">Alumni of IIT, IIM &amp; JNTUA who moved from classrooms into real companies - and are now bringing that real-world experience back into training.</p>
       <div class="alumni-grid">
         ${ALUMNI.map(a=>`
         <div class="alumni-card">
@@ -943,14 +943,14 @@ function renderAlumniPage(){
 
       <div class="realtime-note">
         <span class="flag">🎓</span>
-        <p><strong>Why this matters:</strong> every syllabus on this site is shaped directly by these trainers' own industry experience — so the tools, workflows and projects you practice are the same ones companies expect on day one.</p>
+        <p><strong>Why this matters:</strong> every syllabus on this site is shaped directly by these trainers' own industry experience - so the tools, workflows and projects you practice are the same ones companies expect on day one.</p>
       </div>
     </div>
 
     <div class="course-cta">
       <div class="glow-bg"></div>
       <h3>Learn Directly From Industry Practitioners</h3>
-      <p>All 6 career programs at Glowminds AI are taught by this faculty team — launching soon.</p>
+      <p>All 6 career programs at Glowminds AI are taught by this faculty team - launching soon.</p>
       <span class="cta-btn">🔔 Notify Me When Programs Launch</span>
       <div class="cta-sub">Coming Soon · Glowminds AI Career Programs</div>
     </div>
